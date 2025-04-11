@@ -29,7 +29,7 @@ Terminal
 
 🛠️ Instalación
 
-Clona este repositorio: -> git clone 
+Clona este repositorio: -> git clone https://github.com/rioacosta/S1.05.-Java-Utils
 cd S1.05.-Java-Utils
 ▶️ Ejecución
 
