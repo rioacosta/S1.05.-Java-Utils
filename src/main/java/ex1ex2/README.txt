@@ -30,7 +30,7 @@ El proyecto consta de los siguientes archivos:
 1. **Ejecutar el Programa**:
    - Ejecute el programa con el siguiente comando desde el directorio raíz del proyecto:
     
-     java ex3ex4.Start
+     java ex1ex2.Start
      
 
 2. **Interacción con el Usuario**:
