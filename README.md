@@ -1,4 +1,5 @@
 # S1.05.-Java-Utils
+
 📄 Descripción:
 - Ejercicio 1
 Crea una clase que liste alfabéticamente el contenido de un directorio recibido por parámetro.
@@ -14,6 +15,17 @@ Añade la funcionalidad de leer cualquier fichero TXT y muestra su contenido por
 
 - Ejercicio 5
 Ahora el programa debe serializar un Objeto Java en un fichero .ser y luego debe deserializarlo.
+
+NIVEL 2:
+
+Ejecuta el ejercicio 3 del nivel anterior parametrizando todos los métodos en un fichero de configuración.
+
+Puedes utilizar un fichero Java Properties, o bien la librería Apache Commons Configuration si lo prefieres.
+
+Del ejercicio anterior, parametriza lo siguiente:
+
+Directorio a leer.
+Nombre y directorio del fichero TXT resultante.
 
 
 💻 Tecnologías Utilizadas

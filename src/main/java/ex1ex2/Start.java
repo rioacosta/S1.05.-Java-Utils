@@ -2,39 +2,40 @@ package ex1ex2;
 
 import java.util.Scanner;
 
-import static ex1ex2.DirectoryTool.AlphabeticListing;
-import static ex1ex2.DirectoryTool.DirectoryTree;
+import static ex1ex2.DirectoryTool.alphabeticListing;
+import static ex1ex2.DirectoryTool.directoryTree;
 
 public class Start {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Elige una opción:");
-        System.out.println("1. Listado alfabético");
-        System.out.println("2. Árbol de directorios");
-        int choice = input.nextInt();
-        input.nextLine();
-
-        System.out.println("Introduce el directorio path: ");
-        String directoryPath = input.nextLine();
+        int choice;
+        String directoryPath;
 
         try {
-            switch (choice) {
-                case 1:
-                    System.out.println("Listado alfabético del directorio:");
-                    String[] files = AlphabeticListing(directoryPath);
-                    for (String file : files) {
-                        System.out.println(file);
-                    }
-                    break;
-                case 2:
-                    System.out.println("Árbol del directorio:");
-                    DirectoryTree(directoryPath);
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
+            do {
+                System.out.println("""
+                            Elige una opción: \n
+                            1. Listar alfabeticamente un directorio\n
+                            2. Árbol de directorios con niveles y tipo de contenido\n
+                            3. Salir.""");
+                choice = input.nextInt();
+                input.nextLine();
+
+                switch (choice) {
+                    case 1-> alphabeticListing();
+
+                    case 2-> directoryTree();
+
+                    case 3-> System.out.println("Ha salido del programa");
+
+                    default-> System.out.println("Opción no válida.");
+
+                }
+            } while (choice != 3);
+
+            } catch(IllegalArgumentException e){
+                System.out.println("Error: " + e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+
     }
 }

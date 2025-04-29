@@ -1,18 +1,29 @@
-package ex3ex4;
+package nivel2;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.Properties;
 
 public class DirectoryTool {
-    private final static Scanner INPUT = new Scanner(System.in);
     private static String directoryPath;
     private static String outputPath;
+
+    public static void checkAndExecuteConfiguration() {
+        try {
+            Properties config = loadConfiguration();
+            directoryPath = normalizePath(config.getProperty("directory.path"));
+            outputPath = normalizePath(config.getProperty("output.file.path"));
+            validateConfiguration(directoryPath, outputPath);
+            alphabeticListingToFile();
+            directoryTreeToFile();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
 
     public static String[] alphabeticListing(String directoryPath) {
         directoryPath = normalizePath(directoryPath);
@@ -30,15 +41,11 @@ public class DirectoryTool {
     }
 
     public static void alphabeticListingToFile() throws IOException {
-        System.out.println("Introduce el directorio: ");
-        directoryPath = INPUT.nextLine();
-        System.out.println("Introduce la ruta y nombre para guardar el fichero de salida (ejemplo: output.txt): ");
-        outputPath = INPUT.nextLine();
-        directoryPath = normalizePath(directoryPath);
         validateDirectory(directoryPath);
         String[] files = alphabeticListing(directoryPath);
 
         try (FileWriter writer = new FileWriter(outputPath)) {
+            System.out.println("Generando listado alfabético y guardándolo en un fichero...");
             for (String file : files) {
                 writer.write(file + System.lineSeparator());
             }
@@ -49,22 +56,17 @@ public class DirectoryTool {
     }
 
     public static void directoryTreeToFile() throws IOException {
-        System.out.println("Introduce el directorio: ");
-        directoryPath = INPUT.nextLine();
-        System.out.println("Introduce la ruta y nombre para guardar el archivo de salida (ejemplo: output.txt): ");
-        outputPath = INPUT.nextLine();
-        directoryPath = normalizePath(directoryPath);
         validateDirectory(directoryPath);
         File directory = new File(directoryPath);
 
         try (FileWriter writer = new FileWriter(outputPath)) {
+            System.out.println("Generando árbol de directorios y guardándolo en un fichero...");
             writer.write("Árbol del directorio para: " + directory.getAbsolutePath() + System.lineSeparator());
             listDirectoryToFile(directory, 0, writer);
         } catch (IOException e) {
             throw new IOException("Error al convertir el directorio", e);
         }
     }
-
 
     private static void listDirectoryToFile(File directory, int level, FileWriter writer) throws IOException {
         File[] files = directory.listFiles();
@@ -86,43 +88,43 @@ public class DirectoryTool {
         }
     }
 
-    static void readFileAndPrint() {
-        System.out.println("Introduce la ruta del archivo TXT que deseas leer: ");
-        String filePath = INPUT.nextLine();
-        normalizePath(filePath);
-        File file = new File(filePath);
-
-        if (!file.exists() || !file.isFile()) {
-            System.out.println("El archivo no existe o no es un archivo válido.");
-            return;
-        }
-        try {
-            System.out.println("Contenido del archivo " + filePath + ":");
-            Files.lines(file.toPath(), StandardCharsets.UTF_8).forEach(System.out::println);
-        } catch (IOException e) {
-            System.out.println("Error leyendo el archivo: " + e.getMessage());
-        }
-
-
-
-    }
     private static void validateDirectory(String directoryPath) {
         if (directoryPath == null || directoryPath.isBlank()) {
-            throw new IllegalArgumentException("La ruta del directorio no puede estar vacia");
+            throw new IllegalArgumentException("La ruta del directorio no puede estar vacía");
         }
         File directory = new File(directoryPath);
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException("La ruta proporcionada no es un directorio: " + directoryPath);
         }
         if (!directory.exists()) {
-            throw new IllegalArgumentException("El directorio no existe" + directoryPath);
+            throw new IllegalArgumentException("El directorio no existe: " + directoryPath);
         }
-
     }
+
     private static String normalizePath(String path) {
         if (path == null) {
             return null;
         }
         return path.trim().replace("/", File.separator).replace("\\", File.separator);
+    }
+
+    private static Properties loadConfiguration() throws IOException {
+        Properties config = new Properties();
+        try (InputStream input = DirectoryTool.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("No se pudo encontrar el archivo config.properties en el classpath");
+            }
+            config.load(input);
+        }
+        return config;
+    }
+
+    private static void validateConfiguration(String directoryPath, String outputPath) {
+        if (directoryPath == null || directoryPath.isEmpty()) {
+            throw new IllegalArgumentException("El directorio a leer no está configurado en config.properties");
+        }
+        if (outputPath == null || outputPath.isEmpty()) {
+            throw new IllegalArgumentException("La ruta del archivo de salida no está configurada en config.properties");
+        }
     }
 }

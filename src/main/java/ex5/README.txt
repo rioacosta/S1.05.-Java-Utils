@@ -1,151 +1,77 @@
-# Manual de Compilación y Ejecución del Programa ex5
+## Manual de Compilación y Ejecución del ejercicio EX5
 
-## Estructura del Proyecto
-El proyecto consta de los siguientes archivos:
-- `User.java`: Clase que representa el objeto `User` con propiedades `name` y `key`.
-- `SerializationTool.java`: Contiene métodos para serializar (`serializeObjects`) y deserializar (`deserializeObjects`) objetos, así como para listar archivos `.ser` en un directorio.
-- `Start.java`: Punto de entrada del programa que permite interactuar con las funcionalidades a través de un menú.
+### 1. Preparativos
+Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
-### Funcionalidades Principales
-1. **Serialización de Usuarios**:
-   - Convierte objetos de la clase `User` en un archivo binario `.ser`.
-2. **Deserialización de Usuarios**:
-   - Reconstruye objetos a partir de un archivo `.ser`.
-3. **Listado de Archivos `.ser`**:
-   - Muestra todos los archivos `.ser` en un directorio especificado.
+- Tener instalado Java Development Kit (JDK) en tu sistema.
+- Verificar que el comando `javac` esté disponible desde la terminal.
+- Organizar los archivos del proyecto en la siguiente estructura de directorios:
+```
+/
+├── nivel1/
+│   └── ex5/
+│       ├── MainEx5.java
+│       ├── User.java
+│       ├── [Otros archivos .java]
+```
 
+### 2. Compilación del Proyecto
+Para compilar el proyecto, sigue estos pasos:
 
-## Instrucciones de Compilación
+1. Abre una terminal o línea de comandos.
+2. Navega al directorio raíz del proyecto (el directorio que contiene la carpeta `nivel1`).
+   ```bash
+   cd /ruta/al/directorio/raiz
+   ```
+3. Ejecuta el siguiente comando para compilar todos los archivos `.java` dentro de `nivel1/ex5`:
+   ```bash
+   javac nivel1/ex5/*.java
+   ```
+   Esto generará archivos `.class` en la misma estructura de directorios, listos para ser ejecutados.
 
-1. **Abrir un Terminal o Consola**:
-   - Navegue al directorio raíz donde se encuentran los archivos `User.java`, `SerializationTool.java` y `Start.java`.
+### 3. Ejecución del Programa
+Para ejecutar el programa, utiliza el siguiente comando:
 
-2. **Compilar los Archivos**:
-   - Ejecute el siguiente comando para compilar los archivos:
-     
-     javac -d . User.java SerializationTool.java Start.java
-    
+```bash
+java nivel1.ex5.MainEx5 <ruta_relativa_al_archivo>
+```
 
-3. **Verificar la Compilación**:
-   - Esto generará una estructura de directorios basada en el paquete `ex5` y los archivos `.class` correspondientes.
+Donde `<ruta_relativa_al_archivo>` es la ruta relativa donde se guardará el archivo con el objeto serializado. Por ejemplo:
+```bash
+java nivel1.ex5.MainEx5 data/user.ser
+```
 
+### 4. Ejemplo Práctico
+A continuación, se presenta un ejemplo práctico para probar el programa:
 
+1. Crea un directorio para guardar el archivo serializado (si aún no existe):
+   ```bash
+   mkdir -p data
+   ```
+2. Ejecuta el programa especificando el archivo `data/user.ser` como destino:
+   ```bash
+   java nivel1.ex5.MainEx5 data/user.ser
+   ```
+3. Si todo funciona correctamente, deberías ver una salida similar en la terminal:
+   ```
+   Original User: User{name='Lila', key=54321}
+   Object successfully serialized to: data/user.ser
+   Object successfully deserialized
+   Deserialized User: User{name='Lila', key=54321}
+   ```
 
-## Instrucciones de Ejecución
+### 5. Notas Adicionales
+- **Creación automática de archivos:** Si el archivo especificado en `<ruta_relativa_al_archivo>` no existe, el programa lo creará automáticamente.
+- **Verificación del archivo serializado:** Para comprobar el contenido del archivo serializado, simplemente deserializa el objeto ejecutando nuevamente el programa con el mismo archivo. La salida en la terminal mostrará los datos deserializados.
+- **Estructura del código:** Asegúrate de que las clases como `User` y `MainEx5` estén correctamente definidas y que el paquete `ex5` coincida con la estructura del directorio (`nivel1/ex5`).
 
-1. **Ejecutar el Programa**:
-   - Ejecute el siguiente comando desde el directorio raíz del proyecto:
-    
-     java ex5.Start
-    
+### 6. Solución de Problemas
+- **Error: Clase no encontrada (`ClassNotFoundException`)**
+  Verifica que los archivos `.java` fueron compilados correctamente y que las rutas al ejecutarlos son correctas.
+- **Error: Archivo no encontrado (`FileNotFoundException`)**
+  Asegúrate de que la ruta especificada para `<ruta_relativa_al_archivo>` exista o pueda ser creada.
 
-2. **Interacción con el Usuario**:
-   - Aparecerá el siguiente menú en la consola:
-   
-     Elige una opción:
-     1. Serializar un usuario y guardarlo en un fichero
-     2. Deserializar usuarios desde un fichero
-     3. Listar archivos .ser en un directorio
-     4. Salir del programa
-    
-
-3. **Seleccionar Funcionalidad**:
-   - Introduzca el número correspondiente a la funcionalidad deseada y presione **Enter**.
-
-
-## Funcionalidades Detalladas
-
-### 1. **Serializar un Usuario**
-   - **Descripción**: Guarda uno o más objetos de la clase `User` en un archivo `.ser`.
-   - **Pasos**:
-     1. Seleccione la opción `1` en el menú.
-     2. Introduzca el **nombre del usuario**.
-     3. Introduzca el **ID del usuario**.
-     4. Proporcione la **ruta y nombre del archivo** donde se guardarán los objetos serializados (ejemplo: `users.ser`).
-   - **Salida esperada**:
-     - Mensaje indicando que los usuarios han sido serializados correctamente.
-   - **Ejemplo**:
-   
-     Elige una opción:
-     1
-     Introduce el nombre del usuario: 
-     Juan
-     Introduce el ID del usuario: 
-     101
-     Introduce la ruta y nombre del archivo para guardar los usuarios serializados: 
-     users.ser
-     Usuarios serializados y guardados en: users.ser
-    
-
-### 2. **Deserializar Usuarios**
-   - **Descripción**: Carga objetos de un archivo `.ser` y los muestra en la consola.
-   - **Pasos**:
-     1. Seleccione la opción `2` en el menú.
-     2. Proporcione la **ruta completa del archivo `.ser`** (ejemplo: `users.ser`).
-   - **Salida esperada**:
-     - Los objetos deserializados se mostrarán en la consola.
-   - **Ejemplo**:
-  
-     Elige una opción:
-     2
-     Introduce la ruta del archivo que contiene los usuarios serializados: 
-     users.ser
-     Usuarios deserializados:
-     User{name='Juan', key=101}
-     
-
-### 3. **Listar Archivos `.ser`**
-   - **Descripción**: Muestra los archivos `.ser` en un directorio especificado.
-   - **Pasos**:
-     1. Seleccione la opción `3` en el menú.
-     2. Proporcione la **ruta del directorio** donde buscar archivos `.ser`.
-   - **Salida esperada**:
-     - Lista de archivos `.ser` encontrados.
-   - **Ejemplo**:
-    
-     Elige una opción:
-     3
-     Introduce el directorio donde buscar archivos .ser: 
-     /home/user/documents
-     Archivos .ser encontrados:
-     - users.ser
-   
-
-### 4. **Salir del Programa**
-   - **Descripción**: Finaliza la ejecución del programa.
-   - **Cómo usarlo**:
-     - Seleccione la opción `4` en el menú.
-   - **Salida esperada**:
-   
-     Saliendo del programa. ¡Hasta luego!
- 
-
-## Manejo de Errores
-
-- **Errores al Serializar**:
-  - Si ocurre un problema al guardar los usuarios:
-   
-    Error al serializar los usuarios: {mensaje_de_error}
-   
-
-- **Errores al Deserializar**:
-  - Si el archivo no existe o no es válido:
-    
-    Error al deserializar los usuarios: {mensaje_de_error}
-   
-  - Si el contenido del archivo no es compatible:
-    
-    Error al deserializar los usuarios: java.lang.ClassNotFoundException
-    
-
-- **Errores al Listar Archivos**:
-  - Si el directorio no existe o no es válido:
-    
-    El directorio no existe o no es válido.
-    
-
-
-## Notas Adicionales
+## 7. Notas Adicionales
 - Asegúrese de usar rutas válidas y accesibles desde su sistema operativo.
 - Este programa es compatible con sistemas operativos Windows, macOS y Linux, siempre que las rutas se introduzcan de forma adecuada.
 - Los archivos `.ser` generados pueden ser deserializados en cualquier sistema que use la misma versión de la clase `User`.
